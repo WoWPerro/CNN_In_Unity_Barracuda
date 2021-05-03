@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7039f791ca47eb409f9ff0ebbed2bee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  texture: {fileID: 2800000, guid: bbcdd8cc463d43c44bf04d21ff0cfc90, type: 3}
+  texture: {fileID: 2800000, guid: b6f12ea87829284439b719619ed6d7aa, type: 3}
   asset_ParagraphsVsDrawings: {fileID: 5022602860645237092, guid: 2f6a4461a4a02f54384306de1f6f7f80, type: 3}
   asset_RightMargin: {fileID: 5022602860645237092, guid: 22901780346e993419e6b6061dd68d6d, type: 3}
   asset_LeftMarginForm: {fileID: 5022602860645237092, guid: 85ce9eb8f4fb62d41bb777d9579ea91a, type: 3}

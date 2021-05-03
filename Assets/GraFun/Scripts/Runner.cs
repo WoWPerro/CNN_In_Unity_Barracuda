@@ -6,6 +6,7 @@ public class Runner : MonoBehaviour
 {
     [Header("Texture to analize")]
     public Texture2D texture;
+    private Texture2D textureToAnalize;
 
     [Space(10)]
     [Header("CNNS")]
@@ -47,6 +48,7 @@ public class Runner : MonoBehaviour
 
     public void AnalizeImage()
     {
+        Resize(texture);
         ParagraphsVsDrawings();
         if(paragraph)
         {
@@ -79,7 +81,7 @@ public class Runner : MonoBehaviour
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, model_ParagraphsVSDrawings); 
 
         var channelCount = 1; // you can treat input pixels as 1 (grayscale), 3 (color) or 4 (color with alpha) channels
-        Tensor input = new Tensor(texture, channelCount);
+        Tensor input = new Tensor(textureToAnalize, channelCount);
         worker.Execute(input);
         Tensor Output = worker.PeekOutput();
         var arr = Output.ToReadOnlyArray();
@@ -109,7 +111,7 @@ public class Runner : MonoBehaviour
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, model_RightMargin); 
 
         var channelCount = 1;
-        Tensor input = new Tensor(texture, channelCount);
+        Tensor input = new Tensor(textureToAnalize, channelCount);
         worker.Execute(input);
         Tensor Output = worker.PeekOutput();
         var arr = Output.ToReadOnlyArray();
@@ -145,7 +147,7 @@ public class Runner : MonoBehaviour
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, model_LeftMarginForm); 
 
         var channelCount = 1;
-        Tensor input = new Tensor(texture, channelCount);
+        Tensor input = new Tensor(textureToAnalize, channelCount);
         worker.Execute(input);
         Tensor Output = worker.PeekOutput();
         var arr = Output.ToReadOnlyArray();
@@ -195,7 +197,7 @@ public class Runner : MonoBehaviour
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, model_UpperMargin); 
 
         var channelCount = 1;
-        Tensor input = new Tensor(texture, channelCount);
+        Tensor input = new Tensor(textureToAnalize, channelCount);
         worker.Execute(input);
         Tensor Output = worker.PeekOutput();
         var arr = Output.ToReadOnlyArray();
@@ -243,7 +245,7 @@ public class Runner : MonoBehaviour
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, model_DownMargin); 
 
         var channelCount = 1;
-        Tensor input = new Tensor(texture, channelCount);
+        Tensor input = new Tensor(textureToAnalize, channelCount);
         worker.Execute(input);
         Tensor Output = worker.PeekOutput();
         var arr = Output.ToReadOnlyArray();
@@ -291,7 +293,7 @@ public class Runner : MonoBehaviour
         worker = WorkerFactory.CreateWorker(WorkerFactory.Type.ComputePrecompiled, model_Form); 
 
         var channelCount = 1;
-        Tensor input = new Tensor(texture, channelCount);
+        Tensor input = new Tensor(textureToAnalize, channelCount);
         worker.Execute(input);
         Tensor Output = worker.PeekOutput();
         var arr = Output.ToReadOnlyArray();
@@ -320,5 +322,26 @@ public class Runner : MonoBehaviour
         worker.Dispose();
         Output.Dispose();
         input.Dispose();
+    }
+
+    // private void Resize(Sprite sprite)
+    // {
+    //     Texture2D tex = sprite.texture;
+
+    //     tex.Resize(310, 438, TextureFormat.RGBA32, false);
+
+    //     textureToAnalize = tex;
+    //     //Sprite n_spr = Sprite.Create(tex,new Rect(0, 0, tex.width, tex.height),new Vector2(0.5f, 0.5f), 100.0f);
+    // }
+
+    private void Resize(Texture2D tex)
+    {
+        Texture2D copyTexture = new Texture2D(tex.width, tex.height);
+        copyTexture.SetPixels(tex.GetPixels());
+        copyTexture.Apply();
+        copyTexture.Resize(310, 438, TextureFormat.RGBA32, false);
+
+        textureToAnalize = copyTexture;
+        //Sprite n_spr = Sprite.Create(tex,new Rect(0, 0, tex.width, tex.height),new Vector2(0.5f, 0.5f), 100.0f);
     }
 }
